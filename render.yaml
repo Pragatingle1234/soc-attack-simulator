@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: mini-soc-platform
+    env: node
+    plan: free
+    buildCommand: npm ci --omit=dev && npm ci --prefix backend && npm ci --prefix frontend && npm run build --prefix frontend
+    startCommand: npm start
+    healthCheckPath: /api/health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: AUTH_RATE_LIMIT_WINDOW_MS
+        value: 900000
+      - key: AUTH_RATE_LIMIT_MAX
+        value: 200
+      - key: MONGODB_URI
+        sync: false
+      - key: MONGODB_DB
+        value: mini_soc
